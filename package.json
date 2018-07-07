@@ -4,7 +4,9 @@
   "description": "Monitor performance at a per component level",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cross-env NODE_ENV=production parcel build src/index.tsx",
+    "start": "cross-env NODE_ENV=development parcel demo/index.html"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,22 @@
   "bugs": {
     "url": "https://github.com/jpnelson/react-component-timing/issues"
   },
-  "homepage": "https://github.com/jpnelson/react-component-timing#readme"
+  "homepage": "https://github.com/jpnelson/react-component-timing#readme",
+  "devDependencies": {
+    "@types/react": "^16.4.6",
+    "@types/react-dom": "^16.0.6",
+    "babel-core": "^6.26.3",
+    "babel-preset-react-app": "^3.1.2",
+    "babel-runtime": "^6.26.0",
+    "cross-env": "^5.2.0",
+    "parcel-bundler": "^1.9.4",
+    "prettier": "^1.13.7",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "typescript": "^2.9.2"
+  },
+  "peerDependencies": {
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
+  }
 }
