@@ -1,4 +1,5 @@
 import * as React from "react";
+import { ComponentTiming } from "../../index";
 
 interface OwnState {
   now: number;
@@ -33,7 +34,10 @@ export class Timer extends React.Component<OwnProps, OwnState> {
   }
 
   render() {
-    console.log(this.state);
-    return <span>{this.state.now}</span>;
+    return (
+      <ComponentTiming id="timer" isLoaded={() => true}>
+        <span>{this.state.now}</span>
+      </ComponentTiming>
+    );
   }
 }
