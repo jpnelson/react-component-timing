@@ -3,10 +3,16 @@ import * as React from "react";
 import { RootConsumer } from "./component-timing-root";
 import { ComponentTimingRootContext } from "./component-timing-root";
 
-type LoadingStates = { [key: string]: boolean };
+type ComponentLoadingState = {
+  index: number;
+  loaded: boolean;
+};
+
+export type LoadingStates = { [id: string]: ComponentLoadingState[] };
 
 interface OwnProps {
   id: string;
+  index?: number;
   isLoaded: (loadingStates: LoadingStates) => boolean;
 }
 
@@ -15,7 +21,7 @@ interface OwnState {
 }
 
 type ComponentTimingContext = {
-  informParentOfChildLoad: (id: string, loaded: boolean) => void;
+  informParentOfChildLoad: (id: string, index: number, loaded: boolean) => void;
   registerWithParent: (id: string) => void;
   unregisterWithParent: (id: string) => void;
 };
@@ -47,9 +53,36 @@ export class ComponentTiming extends React.Component<OwnProps, OwnState> {
     };
   }
 
-  private onChildLoad = (id: string, loaded: boolean): void => {
+  private onChildLoad = (id: string, index: number, loaded: boolean): void => {
+    const loadingStates = this.state.loadingStates[id] || [];
+    let newLoadingStates: ComponentLoadingState[];
+
+    const isRegistered = loadingStates.filter(
+      ({ index: thisIndex }) => thisIndex === index
+    ).length;
+
+    if (!isRegistered) {
+      newLoadingStates = [
+        ...loadingStates,
+        {
+          index,
+          loaded
+        }
+      ];
+    } else {
+      newLoadingStates = loadingStates.map(
+        componentLoadingState =>
+          componentLoadingState.index === index
+            ? {
+                index,
+                loaded
+              }
+            : componentLoadingState
+      );
+    }
+
     this.setState({
-      loadingStates: { ...this.state.loadingStates, [id]: loaded }
+      loadingStates: { ...this.state.loadingStates, [id]: newLoadingStates }
     });
   };
 
@@ -64,7 +97,11 @@ export class ComponentTiming extends React.Component<OwnProps, OwnState> {
     const isLoaded = this.props.isLoaded(this.state.loadingStates);
 
     if (isLoaded && !wasLoaded) {
-      parentContext.informParentOfChildLoad(this.props.id, isLoaded);
+      parentContext.informParentOfChildLoad(
+        this.props.id,
+        this.props.index,
+        isLoaded
+      );
 
       const now = window.performance.now();
 
@@ -76,7 +113,11 @@ export class ComponentTiming extends React.Component<OwnProps, OwnState> {
 
       this.lastLoaded = now;
     } else if (!isLoaded && wasLoaded) {
-      parentContext.informParentOfChildLoad(this.props.id, isLoaded);
+      parentContext.informParentOfChildLoad(
+        this.props.id,
+        this.props.index,
+        isLoaded
+      );
     }
 
     this.isLoaded = isLoaded;

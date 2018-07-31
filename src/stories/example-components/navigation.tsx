@@ -51,7 +51,6 @@ export class Navigation extends React.Component<OwnProps, OwnState> {
   }
 
   render() {
-    console.log({ isLoaded: this.isLoaded(), time: window.performance.now() });
     return (
       <ComponentTiming id="navigation" isLoaded={this.isLoaded}>
         <NavigationOuter>

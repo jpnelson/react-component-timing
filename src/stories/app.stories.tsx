@@ -40,9 +40,9 @@ storiesOf("Component timing", module)
         action("timing event")(timingEvent);
       }}
     >
-      <DelayedBlock id={"pink"} color={"pink"} delay={100}>
+      <DelayedBlock index={0} id={"pink"} color={"pink"} delay={100}>
         {
-          [1, 2, 3, 4, 5, 6, 7, 8].map(i => <DelayedBlock key={i} id={"red"} color={"red"} delay={Math.random() * 1000 + 100} />)
+          [1, 2, 3, 4, 5, 6, 7, 8].map(i => <DelayedBlock index={i} key={i} id={"red"} color={"red"} delay={Math.random() * 1000 + 100} />)
         }
       </DelayedBlock>
     </ComponentTimingRoot>

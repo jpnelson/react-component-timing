@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled from "react-emotion";
-import { ComponentTiming } from "../../component-timing";
+import { ComponentTiming, LoadingStates } from "../../component-timing";
 
 const BlockOuter = styled("div")`
   padding: 8px;
@@ -19,6 +19,7 @@ interface OwnProps {
   delay: number;
   color: string;
   id: string;
+  index?: number;
 }
 
 export class DelayedBlock extends React.Component<OwnProps, OwnState> {
@@ -30,8 +31,7 @@ export class DelayedBlock extends React.Component<OwnProps, OwnState> {
     };
   }
 
-  private isLoaded = (a: { [key: string]: boolean }) => {
-    console.log(a);
+  private isLoaded = (loadingStates: LoadingStates) => {
     return this.state.loaded;
   };
 
@@ -45,7 +45,11 @@ export class DelayedBlock extends React.Component<OwnProps, OwnState> {
 
   render() {
     return (
-      <ComponentTiming id={this.props.id} isLoaded={this.isLoaded}>
+      <ComponentTiming
+        id={this.props.id}
+        index={this.props.index}
+        isLoaded={this.isLoaded}
+      >
         <BlockOuter
           color={this.state.loaded ? this.props.color : "transparent"}
         >
