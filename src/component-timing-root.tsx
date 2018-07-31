@@ -6,7 +6,7 @@ type TimingEvent = {
   event: "load";
 };
 
-export interface ProvidedContext {
+export interface ComponentTimingRootContext {
   onLoad: (timingEvent: TimingEvent) => void;
 }
 
@@ -14,13 +14,13 @@ interface OwnProps {
   reporter: (timingEvent: TimingEvent) => void;
 }
 
-const { Provider, Consumer } = React.createContext<ProvidedContext>({
+const { Provider, Consumer } = React.createContext<ComponentTimingRootContext>({
   onLoad: (timingEvent: TimingEvent) => null
 });
 
-export const ComponentTimingConsumer = Consumer;
+export const RootConsumer = Consumer;
 
-export class ComponentTimingProvider extends React.Component<OwnProps> {
+export class ComponentTimingRoot extends React.Component<OwnProps> {
   private onLoad = (timingEvent: TimingEvent) => {
     this.props.reporter(timingEvent);
   };
