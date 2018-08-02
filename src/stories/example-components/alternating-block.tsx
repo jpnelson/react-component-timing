@@ -12,7 +12,7 @@ interface OwnProps {
   id: string;
 }
 
-export class DelayedBlock extends React.Component<OwnProps, OwnState> {
+export class AlternatingBlock extends React.Component<OwnProps, OwnState> {
   constructor(props: OwnProps) {
     super(props);
 
@@ -21,21 +21,17 @@ export class DelayedBlock extends React.Component<OwnProps, OwnState> {
     };
   }
 
-  private isLoaded = (childLoadingStates: { [key: string]: boolean }) => {
-    return this.state.loaded;
-  };
-
   componentDidMount() {
-    setTimeout(() => {
+    setInterval(() => {
       this.setState({
-        loaded: true
+        loaded: !this.state.loaded
       });
     }, this.props.delay);
   }
 
   render() {
     return (
-      <ComponentTiming id={this.props.id} isLoaded={this.isLoaded}>
+      <ComponentTiming id={this.props.id} isLoaded={() => this.state.loaded}>
         <Block color={this.state.loaded ? this.props.color : "transparent"}>
           {this.props.children}
         </Block>

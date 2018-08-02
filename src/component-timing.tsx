@@ -3,7 +3,7 @@ import * as React from "react";
 import { RootConsumer } from "./component-timing-root";
 import { ComponentTimingRootContext } from "./component-timing-root";
 
-type LoadingStates = { [key: string]: boolean };
+export type LoadingStates = { [key: string]: boolean };
 
 interface OwnProps {
   id: string;

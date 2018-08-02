@@ -1,6 +1,6 @@
 import * as React from "react";
 
-type TimingEvent = {
+export type TimingEvent = {
   time: number;
   id: string;
   event: "load";
