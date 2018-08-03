@@ -30,15 +30,13 @@ const {
 });
 
 export class ComponentTiming extends React.Component<OwnProps, OwnState> {
-  private lastLoaded: number;
   private isLoaded: boolean;
   private isRegistered: boolean;
   private unregisterWithParent: (id: string) => void;
 
   constructor(props: OwnProps) {
     super(props);
-    this.lastLoaded = 0;
-    this.isLoaded = false;
+    this.isLoaded = true;
     this.isRegistered = false;
     this.unregisterWithParent = () => null;
 
@@ -56,31 +54,67 @@ export class ComponentTiming extends React.Component<OwnProps, OwnState> {
   private onChildRegister = (id: string): void => {};
   private onChildUnregister = (id: string): void => {};
 
+  private checkLoaded(): boolean {
+    return this.props.isLoaded(this.state.loadingStates);
+  }
+
   private onRender = (
     rootContext: ComponentTimingRootContext,
     parentContext: ComponentTimingContext
   ) => {
     const wasLoaded = this.isLoaded;
-    const isLoaded = this.props.isLoaded(this.state.loadingStates);
+    const isLoaded = this.checkLoaded();
 
-    if (isLoaded && !wasLoaded) {
+    if (!wasLoaded && isLoaded) {
       parentContext.informParentOfChildLoad(this.props.id, isLoaded);
 
-      const now = window.performance.now();
+      this.stopTiming();
 
       rootContext.onLoad({
         id: this.props.id,
         event: "load",
-        time: now - this.lastLoaded
+        time: this.getMostRecentTime()
       });
-
-      this.lastLoaded = now;
-    } else if (!isLoaded && wasLoaded) {
+    } else if (wasLoaded && !isLoaded) {
       parentContext.informParentOfChildLoad(this.props.id, isLoaded);
+      this.startTiming();
     }
 
     this.isLoaded = isLoaded;
   };
+
+  private startTiming() {
+    window.performance.mark(this.getStartMarkName());
+  }
+
+  private stopTiming() {
+    window.performance.mark(this.getEndMarkName());
+    window.performance.measure(
+      this.getMeasureName(),
+      this.getStartMarkName(),
+      this.getEndMarkName()
+    );
+  }
+
+  private getMostRecentTime() {
+    const performanceEntries = window.performance.getEntriesByName(
+      this.getMeasureName(),
+      "measure"
+    );
+    return performanceEntries[performanceEntries.length - 1].duration;
+  }
+
+  private getStartMarkName() {
+    return `${this.props.id}-load-start`;
+  }
+
+  private getEndMarkName() {
+    return `${this.props.id}-load-end`;
+  }
+
+  private getMeasureName() {
+    return `${this.props.id}-loading-time`;
+  }
 
   componentWillUnmount() {
     this.unregisterWithParent(this.props.id);
