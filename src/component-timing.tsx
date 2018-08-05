@@ -94,8 +94,8 @@ export class ComponentTiming extends React.Component<IOwnProps, IOwnState> {
     });
   };
 
-  private onChildRegister = (id: string): void => {};
-  private onChildUnregister = (id: string): void => {};
+  private onChildRegister = (id: string): void => void 0;
+  private onChildUnregister = (id: string): void => void 0;
 
   private checkLoaded(): boolean {
     return this.props.isLoaded(this.state.loadingStates);

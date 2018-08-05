@@ -1,6 +1,6 @@
-import { TimingEvent } from "../../component-timing-root";
+import { ITimingEvent } from "../../component-timing-root";
 
-export function googleAnalyicsReporter(timingEvent: TimingEvent) {
+export function googleAnalyicsReporter(timingEvent: ITimingEvent) {
   (window as any).ga(
     "send",
     "timing",

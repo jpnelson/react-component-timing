@@ -5,7 +5,6 @@ import { storiesOf } from "@storybook/react";
 import { ComponentTimingRoot } from "../index";
 import { Timer } from "./example-components/timer";
 
-import { TimingEvent } from "../component-timing-root";
 import { AlternatingBlock } from "./example-components/alternating-block";
 import { CustomBlock } from "./example-components/custom-block";
 import { DelayedBlock } from "./example-components/delayed-block";

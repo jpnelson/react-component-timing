@@ -1,12 +1,11 @@
 import * as React from "react";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
-import { TimingEvent } from "../../component-timing-root";
+import { ITimingEvent } from "../../component-timing-root";
 import { ComponentTimingRoot } from "../../index";
-import { newrelicReporter } from "../example-reporters/newrelic-reporter";
 import { DelayedBlock } from "./delayed-block";
 
 interface IOwnProps {
-  reporter: (timingEvent: TimingEvent) => void;
+  reporter: (timingEvent: ITimingEvent) => void;
 }
 
 export class RoutingPage extends React.Component<IOwnProps> {

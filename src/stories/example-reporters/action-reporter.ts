@@ -1,6 +1,6 @@
 import { action } from "@storybook/addon-actions";
-import { TimingEvent } from "../../component-timing-root";
+import { ITimingEvent } from "../../component-timing-root";
 
-export const actionReporter = (timingEvent: TimingEvent) => {
+export const actionReporter = (timingEvent: ITimingEvent) => {
   action(`${timingEvent.id}`)(timingEvent.time);
 };

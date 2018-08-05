@@ -13,7 +13,7 @@ interface IOwnProps {
 }
 
 export class AlternatingBlock extends React.Component<IOwnProps, IOwnState> {
-  constructor(props: OwnProps) {
+  constructor(props: IOwnProps) {
     super(props);
 
     this.state = {

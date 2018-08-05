@@ -9,7 +9,7 @@ interface IOwnState {
 interface IOwnProps {}
 
 export class Timer extends React.Component<IOwnProps, IOwnState> {
-  constructor(props: OwnProps) {
+  constructor(props: IOwnProps) {
     super(props);
 
     this.state = {

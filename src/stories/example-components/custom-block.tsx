@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ComponentTiming, LoadingStates } from "../../component-timing";
+import { ComponentTiming, ILoadingStates } from "../../component-timing";
 import { Block } from "./block";
 
 interface IOwnState {
@@ -7,7 +7,7 @@ interface IOwnState {
 }
 
 interface IOwnProps {
-  isLoaded: (loadingStates: LoadingStates) => boolean;
+  isLoaded: (loadingStates: ILoadingStates) => boolean;
   color: string;
   id: string;
 }
