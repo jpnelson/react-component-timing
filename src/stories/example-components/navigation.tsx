@@ -22,7 +22,7 @@ interface IOwnState {
 interface IOwnProps {}
 
 export class Navigation extends React.Component<IOwnProps, IOwnState> {
-  constructor(props: OwnProps) {
+  constructor(props: IOwnProps) {
     super(props);
 
     this.state = {
