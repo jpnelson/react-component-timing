@@ -19,7 +19,7 @@ interface OwnState {
   loaded: boolean;
 }
 
-interface OwnProps {}
+interface OwnProps { }
 
 export class Navigation extends React.Component<OwnProps, OwnState> {
   constructor(props: OwnProps) {

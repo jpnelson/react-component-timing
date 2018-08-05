@@ -27,6 +27,7 @@
     "@storybook/addon-links": "^4.0.0-alpha.12",
     "@storybook/addons": "^4.0.0-alpha.12",
     "@storybook/react": "^4.0.0-alpha.12",
+    "@types/new-relic-browser": "^0.1072.3",
     "@types/react": "^16.4.6",
     "@types/react-dom": "^16.0.6",
     "@types/react-router-dom": "^4.3.0",
