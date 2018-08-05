@@ -1,12 +1,13 @@
 {
   "name": "react-component-timing",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Monitor performance at a per component level",
-  "main": "index.js",
+  "main": "dist/bundle.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env NODE_ENV=development start-storybook -p 6006",
     "build-storybook": "build-storybook",
+    "commit": "git-cz",
     "storybook": "start-storybook -p 6006",
     "build": "cross-env NODE_ENV=production webpack --mode production --declaration"
   },
@@ -19,6 +20,7 @@
   "bugs": {
     "url": "https://github.com/jpnelson/react-component-timing/issues"
   },
+  "typings": "dist/index",
   "homepage": "https://github.com/jpnelson/react-component-timing#readme",
   "devDependencies": {
     "@storybook/addon-actions": "^4.0.0-alpha.12",
@@ -38,13 +40,16 @@
     "babel-core": "^6.26.3",
     "babel-preset-react-app": "^3.1.2",
     "babel-runtime": "^6.26.0",
+    "commitizen": "^2.10.1",
     "cross-env": "^5.2.0",
+    "cz-conventional-changelog": "^2.1.0",
     "emotion": "^9.2.5",
     "prettier": "^1.13.7",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-emotion": "^9.2.5",
     "react-router-dom": "^4.3.1",
+    "semantic-release": "^15.9.5",
     "source-map-loader": "^0.2.3",
     "tslint": "^5.10.0",
     "tslint-config-prettier": "^1.13.0",
