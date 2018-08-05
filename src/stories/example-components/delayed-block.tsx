@@ -2,18 +2,18 @@ import * as React from "react";
 import { ComponentTiming } from "../../component-timing";
 import { Block } from "./block";
 
-interface OwnState {
+interface IOwnState {
   loaded: boolean;
 }
 
-interface OwnProps {
+interface IOwnProps {
   delay: number;
   color: string;
   id: string;
 }
 
-export class DelayedBlock extends React.Component<OwnProps, OwnState> {
-  constructor(props: OwnProps) {
+export class DelayedBlock extends React.Component<IOwnProps, IOwnState> {
+  constructor(props: IOwnProps) {
     super(props);
 
     this.state = {
@@ -21,11 +21,7 @@ export class DelayedBlock extends React.Component<OwnProps, OwnState> {
     };
   }
 
-  private isLoaded = (childLoadingStates: { [key: string]: boolean }) => {
-    return this.state.loaded;
-  };
-
-  componentDidMount() {
+  public componentDidMount() {
     setTimeout(() => {
       this.setState({
         loaded: true
@@ -33,7 +29,7 @@ export class DelayedBlock extends React.Component<OwnProps, OwnState> {
     }, this.props.delay);
   }
 
-  render() {
+  public render() {
     return (
       <ComponentTiming id={this.props.id} isLoaded={this.isLoaded}>
         <Block color={this.state.loaded ? this.props.color : "transparent"}>
@@ -42,4 +38,8 @@ export class DelayedBlock extends React.Component<OwnProps, OwnState> {
       </ComponentTiming>
     );
   }
+
+  private isLoaded = (childLoadingStates: { [key: string]: boolean }) => {
+    return this.state.loaded;
+  };
 }

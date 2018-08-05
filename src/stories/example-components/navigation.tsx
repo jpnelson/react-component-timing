@@ -14,44 +14,28 @@ const NavigationOuter = styled("div")`
   }
 `;
 
-interface OwnState {
+interface IOwnState {
   navigationItems: string[];
   loaded: boolean;
 }
 
-interface OwnProps { }
+interface IOwnProps {}
 
-export class Navigation extends React.Component<OwnProps, OwnState> {
+export class Navigation extends React.Component<IOwnProps, IOwnState> {
   constructor(props: OwnProps) {
     super(props);
 
     this.state = {
-      navigationItems: [],
-      loaded: true
+      loaded: true,
+      navigationItems: []
     };
   }
-  private loadNavItems = async () => {
-    this.setState({
-      navigationItems: [],
-      loaded: false
-    });
-    const navigationItems = await getNavigationData();
-    this.setState({
-      navigationItems,
-      loaded: true
-    });
-  };
 
-  private isLoaded = () => {
-    return this.state.loaded;
-  };
-
-  componentDidMount() {
+  public componentDidMount() {
     this.loadNavItems();
   }
 
-  render() {
-    console.log({ isLoaded: this.isLoaded(), time: window.performance.now() });
+  public render() {
     return (
       <ComponentTiming id="navigation" isLoaded={this.isLoaded}>
         <NavigationOuter>
@@ -64,4 +48,20 @@ export class Navigation extends React.Component<OwnProps, OwnState> {
       </ComponentTiming>
     );
   }
+
+  private loadNavItems = async () => {
+    this.setState({
+      loaded: false,
+      navigationItems: []
+    });
+    const navigationItems = await getNavigationData();
+    this.setState({
+      loaded: true,
+      navigationItems
+    });
+  };
+
+  private isLoaded = () => {
+    return this.state.loaded;
+  };
 }

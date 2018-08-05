@@ -2,17 +2,17 @@ import * as React from "react";
 import { ComponentTiming } from "../../component-timing";
 import { Block } from "./block";
 
-interface OwnState {
+interface IOwnState {
   loaded: boolean;
 }
 
-interface OwnProps {
+interface IOwnProps {
   delay: number;
   color: string;
   id: string;
 }
 
-export class AlternatingBlock extends React.Component<OwnProps, OwnState> {
+export class AlternatingBlock extends React.Component<IOwnProps, IOwnState> {
   constructor(props: OwnProps) {
     super(props);
 
@@ -21,7 +21,7 @@ export class AlternatingBlock extends React.Component<OwnProps, OwnState> {
     };
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     setInterval(() => {
       this.setState({
         loaded: !this.state.loaded
@@ -29,7 +29,7 @@ export class AlternatingBlock extends React.Component<OwnProps, OwnState> {
     }, this.props.delay);
   }
 
-  render() {
+  public render() {
     return (
       <ComponentTiming id={this.props.id} isLoaded={() => this.state.loaded}>
         <Block color={this.state.loaded ? this.props.color : "transparent"}>

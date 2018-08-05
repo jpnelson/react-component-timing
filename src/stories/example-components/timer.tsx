@@ -1,14 +1,14 @@
 import * as React from "react";
 import { ComponentTiming } from "../../index";
 
-interface OwnState {
+interface IOwnState {
   now: number;
   timer: number;
 }
 
-interface OwnProps {}
+interface IOwnProps {}
 
-export class Timer extends React.Component<OwnProps, OwnState> {
+export class Timer extends React.Component<IOwnProps, IOwnState> {
   constructor(props: OwnProps) {
     super(props);
 
@@ -17,7 +17,7 @@ export class Timer extends React.Component<OwnProps, OwnState> {
       timer: 0
     };
   }
-  componentDidMount() {
+  public componentDidMount() {
     const timer = window.setInterval(() => {
       this.setState({
         now: Date.now()
@@ -29,11 +29,11 @@ export class Timer extends React.Component<OwnProps, OwnState> {
     });
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     window.clearInterval(this.state.timer);
   }
 
-  render() {
+  public render() {
     return (
       <ComponentTiming id="timer" isLoaded={() => true}>
         <span>{this.state.now}</span>

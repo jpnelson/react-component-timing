@@ -1,40 +1,44 @@
 import * as React from "react";
 
-import { RootConsumer } from "./component-timing-root";
-import { ComponentTimingRootContext } from "./component-timing-root";
+import {
+  IComponentTimingRootContext,
+  RootConsumer
+} from "./component-timing-root";
 
-export type LoadingStates = { [key: string]: boolean };
+export interface ILoadingStates {
+  [key: string]: boolean;
+}
 
-interface OwnProps {
+interface IOwnProps {
   id: string;
-  isLoaded: (loadingStates: LoadingStates) => boolean;
+  isLoaded: (loadingStates: ILoadingStates) => boolean;
 }
 
-interface OwnState {
-  loadingStates: LoadingStates;
+interface IOwnState {
+  loadingStates: ILoadingStates;
 }
 
-type ComponentTimingContext = {
+interface IComponentTimingContext {
   informParentOfChildLoad: (id: string, loaded: boolean) => void;
   registerWithParent: (id: string) => void;
   unregisterWithParent: (id: string) => void;
-};
+}
 
 const {
   Provider: ChildProvider,
   Consumer: ChildConsumer
-} = React.createContext<ComponentTimingContext>({
+} = React.createContext<IComponentTimingContext>({
   informParentOfChildLoad: () => null,
   registerWithParent: () => null,
   unregisterWithParent: () => null
 });
 
-export class ComponentTiming extends React.Component<OwnProps, OwnState> {
+export class ComponentTiming extends React.Component<IOwnProps, IOwnState> {
   private isLoaded: boolean;
   private isRegistered: boolean;
   private unregisterWithParent: (id: string) => void;
 
-  constructor(props: OwnProps) {
+  constructor(props: IOwnProps) {
     super(props);
     this.isLoaded = true;
     this.isRegistered = false;
@@ -43,6 +47,45 @@ export class ComponentTiming extends React.Component<OwnProps, OwnState> {
     this.state = {
       loadingStates: {}
     };
+  }
+
+  public componentWillUnmount() {
+    this.unregisterWithParent(this.props.id);
+  }
+
+  public render() {
+    return (
+      <RootConsumer>
+        {rootContext => {
+          return (
+            <ChildConsumer>
+              {parentContext => {
+                if (!this.isRegistered) {
+                  parentContext.registerWithParent(this.props.id);
+                  this.unregisterWithParent =
+                    parentContext.unregisterWithParent;
+                  this.isRegistered = true;
+                }
+
+                this.onRender(rootContext, parentContext);
+
+                return (
+                  <ChildProvider
+                    value={{
+                      informParentOfChildLoad: this.onChildLoad,
+                      registerWithParent: this.onChildRegister,
+                      unregisterWithParent: this.onChildUnregister
+                    }}
+                  >
+                    {this.props.children}
+                  </ChildProvider>
+                );
+              }}
+            </ChildConsumer>
+          );
+        }}
+      </RootConsumer>
+    );
   }
 
   private onChildLoad = (id: string, loaded: boolean): void => {
@@ -59,8 +102,8 @@ export class ComponentTiming extends React.Component<OwnProps, OwnState> {
   }
 
   private onRender = (
-    rootContext: ComponentTimingRootContext,
-    parentContext: ComponentTimingContext
+    rootContext: IComponentTimingRootContext,
+    parentContext: IComponentTimingContext
   ) => {
     const wasLoaded = this.isLoaded;
     const isLoaded = this.checkLoaded();
@@ -71,8 +114,8 @@ export class ComponentTiming extends React.Component<OwnProps, OwnState> {
       this.stopTiming();
 
       rootContext.onLoad({
-        id: this.props.id,
         event: "load",
+        id: this.props.id,
         time: this.getMostRecentTime()
       });
     } else if (wasLoaded && !isLoaded) {
@@ -114,44 +157,5 @@ export class ComponentTiming extends React.Component<OwnProps, OwnState> {
 
   private getMeasureName() {
     return `${this.props.id}-loading-time`;
-  }
-
-  componentWillUnmount() {
-    this.unregisterWithParent(this.props.id);
-  }
-
-  render() {
-    return (
-      <RootConsumer>
-        {rootContext => {
-          return (
-            <ChildConsumer>
-              {parentContext => {
-                if (!this.isRegistered) {
-                  parentContext.registerWithParent(this.props.id);
-                  this.unregisterWithParent =
-                    parentContext.unregisterWithParent;
-                  this.isRegistered = true;
-                }
-
-                this.onRender(rootContext, parentContext);
-
-                return (
-                  <ChildProvider
-                    value={{
-                      informParentOfChildLoad: this.onChildLoad,
-                      registerWithParent: this.onChildRegister,
-                      unregisterWithParent: this.onChildUnregister
-                    }}
-                  >
-                    {this.props.children}
-                  </ChildProvider>
-                );
-              }}
-            </ChildConsumer>
-          );
-        }}
-      </RootConsumer>
-    );
   }
 }

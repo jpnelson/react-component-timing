@@ -1,16 +1,16 @@
-import { ComponentTimingRoot } from "../../index";
 import * as React from "react";
-import { newrelicReporter } from "../example-reporters/newrelic-reporter";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import { DelayedBlock } from "./delayed-block";
+import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import { TimingEvent } from "../../component-timing-root";
+import { ComponentTimingRoot } from "../../index";
+import { newrelicReporter } from "../example-reporters/newrelic-reporter";
+import { DelayedBlock } from "./delayed-block";
 
-interface Props {
+interface IOwnProps {
   reporter: (timingEvent: TimingEvent) => void;
 }
 
-export class RoutingPage extends React.Component<Props> {
-  render() {
+export class RoutingPage extends React.Component<IOwnProps> {
+  public render() {
     return (
       <ComponentTimingRoot reporter={this.props.reporter}>
         <Router>

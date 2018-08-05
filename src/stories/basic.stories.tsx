@@ -2,16 +2,16 @@ import * as React from "react";
 
 import { storiesOf } from "@storybook/react";
 
-import { Timer } from "./example-components/timer";
 import { ComponentTimingRoot } from "../index";
+import { Timer } from "./example-components/timer";
 
-import { Navigation } from "./example-components/navigation";
-import { DelayedBlock } from "./example-components/delayed-block";
 import { TimingEvent } from "../component-timing-root";
 import { AlternatingBlock } from "./example-components/alternating-block";
 import { CustomBlock } from "./example-components/custom-block";
+import { DelayedBlock } from "./example-components/delayed-block";
+import { Navigation } from "./example-components/navigation";
 
-import { actionReporter } from './example-reporters/action-reporter';
+import { actionReporter } from "./example-reporters/action-reporter";
 
 storiesOf("Component timing", module)
   .add("With a navigation and a timer", () => (
