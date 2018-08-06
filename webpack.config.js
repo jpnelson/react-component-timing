@@ -2,7 +2,9 @@ module.exports = {
   entry: "./src/index.tsx",
   output: {
     filename: "bundle.js",
-    path: __dirname + "/dist"
+    path: __dirname + "/dist",
+    library: "react-component-timing",
+    libraryTarget: "umd"
   },
   devtool: "source-map",
   resolve: {
@@ -22,7 +24,10 @@ module.exports = {
   },
   externals: {
     react: {
-      commonjs: "react"
+      commonjs: "react",
+      commonjs2: "react",
+      amd: "react",
+      root: "React"
     },
     "react-dom": "ReactDOM"
   }

@@ -3,6 +3,7 @@
   "version": "0.0.6",
   "description": "Monitor performance at a per component level",
   "main": "dist/bundle.js",
+  "module": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env NODE_ENV=development start-storybook -p 6006",
