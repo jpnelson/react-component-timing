@@ -177,6 +177,6 @@ export class ComponentTiming extends React.Component<IOwnProps, IOwnState> {
   }
 
   private getMeasureName() {
-    return `${this.props.id}-loading-time`;
+    return `⌛️ ${this.props.id} [load]`;
   }
 }
