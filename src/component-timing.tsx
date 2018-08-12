@@ -38,6 +38,7 @@ export class ComponentTiming extends React.Component<IOwnProps, IOwnState> {
   private isLoaded: boolean;
   private isRegistered: boolean;
   private unregisterWithParent: (id: string) => void;
+  private parentContext: IComponentTimingContext;
 
   static defaultProps = {
     isLoaded: (isSelfLoaded: boolean, childLoadingStates: ILoadingStates) =>
@@ -57,6 +58,7 @@ export class ComponentTiming extends React.Component<IOwnProps, IOwnState> {
 
   public componentWillUnmount() {
     this.unregisterWithParent(this.props.id);
+    this.onUnmount(this.parentContext);
   }
 
   public render() {
@@ -66,6 +68,7 @@ export class ComponentTiming extends React.Component<IOwnProps, IOwnState> {
           return (
             <ChildConsumer>
               {parentContext => {
+                this.parentContext = parentContext;
                 if (!this.isRegistered) {
                   parentContext.registerWithParent(this.props.id);
                   this.unregisterWithParent =
@@ -133,6 +136,15 @@ export class ComponentTiming extends React.Component<IOwnProps, IOwnState> {
     }
 
     this.isLoaded = isLoaded;
+  };
+
+  private onUnmount = (parentContext: IComponentTimingContext) => {
+    this.isLoaded = false;
+    this.stopTiming();
+    if (!parentContext) {
+      return;
+    }
+    parentContext.informParentOfChildLoad(this.props.id, this.isLoaded);
   };
 
   private startTiming() {
