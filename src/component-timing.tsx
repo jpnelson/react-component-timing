@@ -11,7 +11,8 @@ export interface ILoadingStates {
 
 interface IOwnProps {
   id: string;
-  isLoaded: (loadingStates: ILoadingStates) => boolean;
+  isSelfLoaded: boolean;
+  isLoaded?: (isSelfLoaded: boolean, loadingStates: ILoadingStates) => boolean;
 }
 
 interface IOwnState {
@@ -37,6 +38,11 @@ export class ComponentTiming extends React.Component<IOwnProps, IOwnState> {
   private isLoaded: boolean;
   private isRegistered: boolean;
   private unregisterWithParent: (id: string) => void;
+
+  static defaultProps = {
+    isLoaded: (isSelfLoaded: boolean, childLoadingStates: ILoadingStates) =>
+      isSelfLoaded
+  };
 
   constructor(props: IOwnProps) {
     super(props);
@@ -98,7 +104,10 @@ export class ComponentTiming extends React.Component<IOwnProps, IOwnState> {
   private onChildUnregister = (id: string): void => void 0;
 
   private checkLoaded(): boolean {
-    return this.props.isLoaded(this.state.loadingStates);
+    return this.props.isLoaded(
+      this.props.isSelfLoaded,
+      this.state.loadingStates
+    );
   }
 
   private onRender = (

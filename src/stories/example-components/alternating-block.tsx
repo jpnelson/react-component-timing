@@ -31,7 +31,7 @@ export class AlternatingBlock extends React.Component<IOwnProps, IOwnState> {
 
   public render() {
     return (
-      <ComponentTiming id={this.props.id} isLoaded={() => this.state.loaded}>
+      <ComponentTiming id={this.props.id} isSelfLoaded={this.state.loaded}>
         <Block color={this.state.loaded ? this.props.color : "transparent"}>
           {this.props.children}
         </Block>

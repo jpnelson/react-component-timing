@@ -35,7 +35,7 @@ export class Timer extends React.Component<IOwnProps, IOwnState> {
 
   public render() {
     return (
-      <ComponentTiming id="timer" isLoaded={() => true}>
+      <ComponentTiming id="timer" isSelfLoaded={true}>
         <span>{this.state.now}</span>
       </ComponentTiming>
     );

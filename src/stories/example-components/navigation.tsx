@@ -37,7 +37,7 @@ export class Navigation extends React.Component<IOwnProps, IOwnState> {
 
   public render() {
     return (
-      <ComponentTiming id="navigation" isLoaded={this.isLoaded}>
+      <ComponentTiming id="navigation" isSelfLoaded={this.state.loaded}>
         <NavigationOuter>
           {this.state.navigationItems.map((item, i) => (
             <a href="#" key={i}>
@@ -59,9 +59,5 @@ export class Navigation extends React.Component<IOwnProps, IOwnState> {
       loaded: true,
       navigationItems
     });
-  };
-
-  private isLoaded = () => {
-    return this.state.loaded;
   };
 }

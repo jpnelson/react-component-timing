@@ -24,8 +24,9 @@ storiesOf("Component timing", module)
       <CustomBlock
         id="pink"
         color="pink"
-        isLoaded={({ red, green, blue, orange }) =>
-          red && green && blue && orange
+        isSelfLoaded={true}
+        isLoaded={(isSelfLoaded, { red, green, blue, orange }) =>
+          isSelfLoaded && red && green && blue && orange
         }
       >
         <DelayedBlock id="red" color="red" delay={200} />
@@ -51,7 +52,12 @@ storiesOf("Component timing", module)
   ))
   .add("With an alternating child", () => (
     <ComponentTimingRoot reporter={actionReporter}>
-      <CustomBlock id="red" color="red" isLoaded={({ pink }) => pink}>
+      <CustomBlock
+        id="red"
+        color="red"
+        isSelfLoaded={true}
+        isLoaded={(isSelfLoaded, { pink }) => isSelfLoaded && pink}
+      >
         <AlternatingBlock id="pink" color="pink" delay={2000} />
       </CustomBlock>
     </ComponentTimingRoot>

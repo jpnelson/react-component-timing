@@ -7,7 +7,11 @@ interface IOwnState {
 }
 
 interface IOwnProps {
-  isLoaded: (loadingStates: ILoadingStates) => boolean;
+  isLoaded: (
+    isSelfLoaded: boolean,
+    childLoadingStates: ILoadingStates
+  ) => boolean;
+  isSelfLoaded: boolean;
   color: string;
   id: string;
 }
@@ -15,7 +19,11 @@ interface IOwnProps {
 export class CustomBlock extends React.Component<IOwnProps, IOwnState> {
   public render() {
     return (
-      <ComponentTiming id={this.props.id} isLoaded={this.props.isLoaded}>
+      <ComponentTiming
+        id={this.props.id}
+        isSelfLoaded={this.props.isSelfLoaded}
+        isLoaded={this.props.isLoaded}
+      >
         <Block color={this.props.color}>{this.props.children}</Block>
       </ComponentTiming>
     );

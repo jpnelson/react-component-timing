@@ -31,15 +31,11 @@ export class DelayedBlock extends React.Component<IOwnProps, IOwnState> {
 
   public render() {
     return (
-      <ComponentTiming id={this.props.id} isLoaded={this.isLoaded}>
+      <ComponentTiming id={this.props.id} isSelfLoaded={this.state.loaded}>
         <Block color={this.state.loaded ? this.props.color : "transparent"}>
           {this.props.children}
         </Block>
       </ComponentTiming>
     );
   }
-
-  private isLoaded = (childLoadingStates: { [key: string]: boolean }) => {
-    return this.state.loaded;
-  };
 }
